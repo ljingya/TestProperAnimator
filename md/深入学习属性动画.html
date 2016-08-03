@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>深入学习属性动画</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+</head>
+<body>
+<h1>深入学习属性动画</h1>
+<h2>1.动画三种方式<br/></h2>
+<table>
+<tr>
+<td>动画名称</td>
+<td>动画的定义</td>
+</tr>
+<tr>
+<td>逐帧动画</td>
+<td> 将一张完整的图片拆成一张张图片单独的播放</td>
+</tr>
+<tr>
+<td>补间动画</td>
+<td>可以对view进行一些列的动画操作</td>
+</tr>
+<tr>
+<td>属性动画</td>
+<td>可以对非view的对象就行动画操作，可以改变view的属性而不单单是改变view的动画效果</td>
+</tr>
+</table>
+<h2>2.属性动画的学习</h2>
+<h3>1.ValueAnimator</h3>
+<pre><code>ValueAnimator anim = ValueAnimator.ofFloat(0f, 1f);  
+anim.setDuration(300);  
+anim.start();                                                               
+</code></pre>
+
+<p>valueAnimatior会自动的从初始值，过度到结束值这样的效果，还负责管理动画的播放次数。
+播放模式。<br/>
+监听动画的执行：																   	</p>
+<pre><code>ValueAnimator anim = ValueAnimator.ofFloat(0f, 1f);  
+anim.setDuration(300);          
+anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {  
+@Override  
+public void onAnimationUpdate(ValueAnimator animation) {  
+    float currentValue = (float) animation.getAnimatedValue();  
+    Log.d(&quot;TAG&quot;, &quot;cuurent value is &quot; + currentValue);  
+}  
+});  
+anim.start();                                                  
+</code></pre>
+
+<h3>2.ObjectAnimator</h3>
+<p>ValueAnimator知不是对值的平滑的动画过渡而ObjectAnimator可以直接对任意对象任意属性进行
+动画操作。ObjectAnimatior继承自ValueAnimator用法类似，将一个TextView在五秒内从常规变成透明再变成常规：</p>
+<pre><code>ObjectAnimator animator = ObjectAnimator.ofFloat(textview, &quot;alpha&quot;, 1f, 0f, 1f);  
+animator.setDuration(5000);  
+animator.start(); 
+</code></pre>
+
+<h3>3.组合动画</h3>
+<p>实现组合动画主要用到AnimatorSet类，这个类提供了一个play()的方法，返回一个AnimatorSet实例
+AnimatorSet.Builder中包括四个方法</p>
+<ul>
+<li>
+<p>after(Animator anim),将现有动画插入到传入的动画之后</p>
+</li>
+<li>
+<p>after(long delay)，将现有动画延迟到制定动画之后</p>
+</li>
+<li>
+<p>before(Animator anim),将现有动画插入到传入的动画之前</p>
+</li>
+<li>
+<p>with(Animator anim),将现有动画和传入的动画同时执行。</p>
+<pre><code>ObjectAnimator moveIn = ObjectAnimator.ofFloat(textview, &quot;translationX&quot;, -500f, 0f);  
+ObjectAnimator rotate = ObjectAnimator.ofFloat(textview, &quot;rotation&quot;, 0f, 360f);  
+ObjectAnimator fadeInOut = ObjectAnimator.ofFloat(textview, &quot;alpha&quot;, 1f, 0f, 1f);  
+AnimatorSet animSet = new AnimatorSet();  
+animSet.play(rotate).with(fadeInOut).after(moveIn);  
+animSet.setDuration(5000);  
+animSet.start(); 
+</code></pre>
+
+</li>
+</ul>
+<h3>4.Animator监听器</h3>
+<p>监听动画何时开始，何时结束，Animator类提供了一个addListener()方法，这个方法接受一个AnimatorListener。添加一个监听器的示例代码：</p>
+<pre><code>anim.addListener(new AnimatorListener() {  
+            @Override  
+public void onAnimationStart(Animator animation) {  
+}  
+
+@Override  
+public void onAnimationRepeat(Animator animation) {  
+}  
+
+@Override  
+public void onAnimationEnd(Animator animation) {  
+}  
+
+@Override  
+public void onAnimationCancel(Animator animation) {  
+}  
+});
+</code></pre>
+
+<p>有时并不需要监听这么多事件，为此提供了一个AnimatorLIstenerAdapter,解决。示例代码：</p>
+<pre><code>anim.addListener(new AnimatorListenerAdapter() {  
+@Override  
+public void onAnimationEnd(Animator animation) {  
+}  
+});  
+</code></pre>
+
+<h3>5.使用XML编写动画</h3>
+<p>如果使用XML来编写动画，需要在res目录下创建一个animator文件，在XML文件中添加三种标签</p>
+<ul>
+<li>
+<p><code>&lt;animator&gt;</code> 标签对应代码中的ValueAnimator：实现一个而从0到100的平滑过渡</p>
+<pre><code>&lt;animator xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;  
+android:valueFrom=&quot;0&quot;  
+android:valueTo=&quot;100&quot;  
+android:valueType=&quot;intType&quot;/&gt;  
+</code></pre>
+
+</li>
+<li>
+<p><code>&lt;objectAnimator&gt;</code>对应代码的ObjectAnimator；实现透明度从1到0的动画</p>
+<pre><code>&lt;objectAnimator xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;  
+android:valueFrom=&quot;1&quot;  
+android:valueTo=&quot;0&quot;  
+android:valueType=&quot;floatType&quot;  
+android:propertyName=&quot;alpha&quot;/&gt;  
+</code></pre>
+
+</li>
+<li>
+<p><code>&lt;set&gt;</code>对应代码的AnimatorSet<br/>
+Xml文件编写之后在代码中的加载方式：</p>
+<pre><code>Animator animator = AnimatorInflater.loadAnimator(context, R.animator.anim_file);  
+animator.setTarget(view);  
+animator.start(); 
+</code></pre>
+
+</li>
+</ul>
+<h3>ValueAnimator的高级用法</h3>
+<p>在自定义一个View的时候，在这个View中有Point对象管理坐标，然后在onDraw()方法中就是根据这个Point对象的坐标值，进行绘制，如果我们对整个自定义View的动画效果就有了。<br/>
+先了解TypeEvaluator的用法：简单来说就是告诉动画系统，如何从初始值过渡到结束值。比如ValueAnimator.ofFloat()就是实现了从初始值到结束值的平滑过渡，其实就是系统内置了一个FloatEvaluator:代码实现如下，</p>
+<pre><code>public class FloatEvaluator implements TypeEvaluator {  
+public Object evaluate(float fraction, Object startValue, Object endValue) {  
+        float startFloat = ((Number) startValue).floatValue();  
+        return startFloat + fraction * (((Number) endValue).floatValue() - startFloat);  
+    }  
+}  
+</code></pre>
+
+<p>三个参数的意义：</p>
+<ul>
+<li>
+<p>fraction，表示动画的完成度。</p>
+</li>
+<li>
+<p>startValue 动画的初始值</p>
+</li>
+<li>
+<p>endValue 动画的结束值    
+</p>
+</li>
+</ul>
+<h3>ObjectAnimator的高级用法</h3>
+<p>补间动画只能实现移动，缩放等操作，但是要对view的颜色进行动态改变就无法实现。<br/>
+ObjectAnimator:内部的工作机制是通过寻找特定的属性的get和set方法，然后通过对值不断的改变从而实现动画。比如，我们自定义一个View，只需要在其内部这样写：</p>
+<pre><code> public class MyAnimView extends View {  
+ ...  
+ private String color;  
+ public String getColor() {  
+        return color;  
+ }  
+  public void setColor(String color) {  
+        this.color = color;  
+        mPaint.setColor(Color.parseColor(color));  
+        invalidate();  
+    }  
+    ...  
+}   
+</code></pre>
+
+<h3>Interpolator的用法</h3>
+<p>Interpolator:直译是补间器的意思。它的主要作用是可以控制动画的变化速率，比如去实现一种非线性运动的动画效果。那么什么叫做非线性运动的动画效果呢？就是说动画改变的速率不是一成不变的，像加速运动以及减速运动都属于非线性运动。不过Interpolator并不是属性动画中新增的技术，实际上从Android 1.0版本开始就一直存在Interpolator接口了，而之前的补间动画当然也是支持这个功能的。只不过在属性动画中新增了一个TimeInterpolator接口，这个接口是用于兼容之前的Interpolator的，这使得所有过去的Interpolator实现类都可以直接拿过来放到属性动画当中使用	。</p>
+<ul>
+<li>
+<p>AccelerateDecelerateInterpolator 先加速后减速的interpolator,系统默认的补间器。</p>
+</li>
+<li>
+<p>AccelerateInterpolator 加速的补间器</p>
+</li>
+<li>
+<p>DecelerateInterpolator 减速的补间器。<br/>
+系统内置的补间器非常多。interpolator的内部实现机制是什么：<br/></p>
+<pre><code>/** 
+* A time interpolator defines the rate of change of an animation. This allows animations 
+* to have non-linear motion, such as acceleration and deceleration. 
+*/  
+ public interface TimeInterpolator {  
+
+/** 
+ * Maps a value representing the elapsed fraction of an animation to a value that represents 
+ * the interpolated fraction. This interpolated value is then multiplied by the change in 
+ * value of an animation to derive the animated value at the current elapsed animation time. 
+ * 
+ * @param input A value between 0 and 1.0 indicating our current point 
+ *        in the animation where 0 represents the start and 1.0 represents 
+ *        the end 
+ * @return The interpolation value. This value can be more than 1.0 for 
+ *         interpolators which overshoot their targets, or less than 0 for 
+ *         interpolators that undershoot their targets. 
+ */  
+float getInterpolation(float input);  
+ }  
+</code></pre>
+
+<p>getInterpolation()方法接收了一个input值，这个值随着动画的运行不断变化，不过变化是有规率可寻的，就是根据设定动画时长匀速增加。变化范围是0到1即：动画开始的时候input值为0，动画结束的时候input值为1。inuput值与fraction值之间有什么关系？input值就是fraction。input值经过系统计算，传入到getINnterpolation中，然后我们可以自己实现这个方法，经过计算返回input值，这个值就是fraction参数。因此最简单的就是input值与fraction相同。系统中内置LinearInterpolator就是一种匀速运动的Interpolator，那么我们来看一下它的源码是怎么实现的：</p>
+<pre><code>/** 
+ * An interpolator where the rate of change is constant 
+ */  
+@HasNativeInterpolator  
+public class LinearInterpolator extends BaseInterpolator implements NativeInterpolatorFactory {  
+public LinearInterpolator() {  
+}  
+public LinearInterpolator(Context context, AttributeSet attrs) {  
+}  
+public float getInterpolation(float input) {  
+return input;  
+}  
+/** @hide */  
+@Override  
+ public long createNativeInterpolator() {  
+return NativeInterpolatorFactoryHelper.createLinearInterpolator();  
+ }  
+}    
+</code></pre>
+
+<p>知道补间器里面的实现过程自定义一个先加速，后减速的补间器。</p>
+<pre><code>/**
+* @author shuiai@dianjia.io
+* @Company 杭州木瓜科技有限公司
+* @date 2016/8/3
+*/
+public class DefineInterpolation implements TimeInterpolator {
+
+ @Override
+public float getInterpolation(float input) {
+if (input&lt;0.5){
+    input= (float) ((Math.sin(input*Math.PI)))/2;
+}else {
+    input= (float) (2-Math.sin(input*Math.PI))/2;
+}
+return input;
+}
+</code></pre>
+
+</li>
+</ul>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
